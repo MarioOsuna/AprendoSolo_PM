@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">AprendoSolo</string>
+    <string name="Clave">Clave</string>
+    <string name="Hacer">Hacer Foto</string>
+    <string name="Escoger">Escoger Foto</string>
+    <string name="entrar">Entrar</string>
+    <string name="añadir">Añadir preguntas</string>
+    <string name="Borrar">Borrar preguntas</string>
+    <string name="Modificar">Modificar preguntas</string>
+    <string name="Aprender">Aprender</string>
+    <string name="Act_Desc">Activar/Desactivar Sonido</string>
+    <string name="VLogros">Ver mis logros</string>
+    <string name="BLogros">Borrar Mis logros</string>
+    <string name="Compartir">Compartir</string>
+    <string name="Pregunta">Pregunta</string>
+    <string name="Respuesta">Respuesta correcta</string>
+    <string name="RespuestaIncorrecta">Respuesta incorrecta</string>
+    <string name="Añadir1">Añadir</string>
+    <string name="Metros">Meters</string>
 </resources>

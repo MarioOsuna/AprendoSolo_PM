@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ModificarPreguntas">
+
+    <Button
+        android:id="@+id/buttonVolver4"
+        android:layout_width="106dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="20dp"
+        android:background="@android:drawable/ic_menu_revert"
+        app:layout_constraintBottom_toTopOf="@+id/ListaModificar"
+        app:layout_constraintEnd_toStartOf="@+id/buttonModificarPreg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextIncorrectaMod2" />
+
+    <EditText
+        android:id="@+id/editTextIDModificar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginBottom="10dp"
+        android:ems="10"
+        android:hint="ID  "
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/editTextRespuestaModificar"
+        app:layout_constraintEnd_toStartOf="@+id/editTextPreguntaModificar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextPreguntaModificar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="38dp"
+        android:layout_marginBottom="10dp"
+        android:ems="10"
+        android:hint="@string/Pregunta"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/editTextRespuestaModificar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editTextIDModificar" />
+
+    <EditText
+        android:id="@+id/editTextIncorrectaMod2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="14dp"
+        android:ems="10"
+        android:hint="@string/RespuestaIncorrecta"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/buttonVolver4"
+        app:layout_constraintStart_toStartOf="@+id/editTextIncorrectaMod"
+        app:layout_constraintTop_toBottomOf="@+id/editTextIncorrectaMod" />
+
+    <EditText
+        android:id="@+id/editTextRespuestaModificar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="27dp"
+        android:ems="10"
+        android:hint="@string/Respuesta"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/editTextIncorrectaMod"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextIDModificar" />
+
+    <EditText
+        android:id="@+id/editTextIncorrectaMod"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:ems="10"
+        android:hint="@string/RespuestaIncorrecta"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/editTextIncorrectaMod2"
+        app:layout_constraintStart_toStartOf="@+id/editTextRespuestaModificar"
+        app:layout_constraintTop_toBottomOf="@+id/editTextRespuestaModificar" />
+
+    <Button
+        android:id="@+id/buttonModificarPreg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="47dp"
+        android:text="@string/Modificar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/buttonVolver4"
+        app:layout_constraintTop_toBottomOf="@+id/editTextIncorrectaMod2" />
+
+    <ListView
+        android:id="@+id/ListaModificar"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonVolver4" />
+</androidx.constraintlayout.widget.ConstraintLayout>

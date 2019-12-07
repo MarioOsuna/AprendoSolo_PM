@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LearnAlone</string>
+    <string name="Act_Desc">Enable/Disable sound</string>
+    <string name="Aprender">Learn</string>
+    <string name="Añadir1">Add</string>
+    <string name="BLogros">Delete achievements</string>
+    <string name="Borrar">Delete questions</string>
+    <string name="Clave">Password</string>
+    <string name="Compartir">Share</string>
+    <string name="Escoger">Chose photo</string>
+    <string name="Hacer">Make a photo</string>
+    <string name="Modificar">Update questions</string>
+    <string name="Pregunta">Question</string>
+    <string name="Respuesta">Correct answer</string>
+    <string name="RespuestaIncorrecta">wrong answer</string>
+    <string name="VLogros">See my archievements</string>
+    <string name="añadir">Add questions</string>
+    <string name="entrar">Enter</string>
+</resources>

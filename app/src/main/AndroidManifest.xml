@@ -9,6 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".VerLogros"></activity>
+        <activity android:name=".Sonido" />
+        <activity android:name=".Aprender" />
+        <activity android:name=".ModificarPreguntas" />
+        <activity android:name=".BorrarPregunta" />
+        <activity android:name=".AnadirPreguntas" />
+        <activity android:name=".Menu" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
