@@ -6,104 +6,114 @@
     android:layout_height="match_parent"
     tools:context=".AnadirPreguntas">
 
-    <Button
-        android:id="@+id/buttonVolver2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginBottom="60dp"
-        android:background="@android:drawable/ic_menu_revert"
-        app:layout_constraintBottom_toTopOf="@+id/editTextID"
-        app:layout_constraintEnd_toStartOf="@+id/textView4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/editTextIncorrecta2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginBottom="182dp"
-        android:ems="10"
-        android:hint="@string/RespuestaIncorrecta"
-        android:inputType="textPersonName"
+    <ScrollView
+        android:id="@+id/scrollView4"
+        android:layout_width="411dp"
+        android:layout_height="731dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextIncorrecta1" />
-
-    <EditText
-        android:id="@+id/editTextID"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginBottom="37dp"
-        android:ems="10"
-        android:hint="ID  "
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/editTextPregunta"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonVolver2" />
-
-    <EditText
-        android:id="@+id/editTextPregunta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="26dp"
-        android:layout_marginBottom="49dp"
-        android:ems="10"
-        android:hint="@string/Pregunta"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/editTextRespuestaCorrecta"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextID" />
-
-    <EditText
-        android:id="@+id/editTextRespuestaCorrecta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="26dp"
-        android:layout_marginBottom="53dp"
-        android:ems="10"
-        android:hint="@string/Respuesta"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/editTextIncorrecta1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPregunta" />
-
-    <EditText
-        android:id="@+id/editTextIncorrecta1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginBottom="43dp"
-        android:ems="10"
-        android:hint="@string/RespuestaIncorrecta"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/editTextIncorrecta2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextRespuestaCorrecta" />
-
-    <Button
-        android:id="@+id/buttonAnadir"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="29dp"
-        android:text="@string/Añadir1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextIncorrecta2" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/añadir"
-        android:textSize="35sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/buttonVolver2"
-        app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/editTextIncorrecta2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="43dp"
+                android:layout_marginEnd="170dp"
+                android:ems="10"
+                android:hint="@string/RespuestaIncorrecta"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextIncorrecta1" />
+
+            <EditText
+                android:id="@+id/editTextIncorrecta1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="53dp"
+                android:ems="10"
+                android:hint="@string/RespuestaIncorrecta"
+                android:inputType="textPersonName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextRespuestaCorrecta" />
+
+            <EditText
+                android:id="@+id/editTextPregunta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="26dp"
+                android:layout_marginTop="37dp"
+                android:ems="10"
+                android:hint="@string/Pregunta"
+                android:inputType="textPersonName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextID" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="52dp"
+                android:layout_marginBottom="56dp"
+                android:text="@string/añadir"
+                android:textSize="30sp"
+                app:layout_constraintBottom_toTopOf="@+id/editTextID"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <Button
+                android:id="@+id/buttonVolver2"
+                android:layout_width="80dp"
+                android:layout_height="70dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="88dp"
+                android:background="@android:drawable/ic_menu_revert"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/editTextRespuestaCorrecta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="49dp"
+                android:layout_marginEnd="172dp"
+                android:ems="10"
+                android:hint="@string/Respuesta"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextPregunta" />
+
+            <EditText
+                android:id="@+id/editTextID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="45dp"
+                android:layout_marginEnd="2dp"
+                android:ems="10"
+                android:hint="ID  "
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toStartOf="@+id/buttonAnadirRow"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonVolver2" />
+
+            <Button
+                android:id="@+id/buttonAnadirRow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="21dp"
+                android:text="@string/Añadir1"
+                app:layout_constraintBaseline_toBaselineOf="@+id/editTextID"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/editTextID" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

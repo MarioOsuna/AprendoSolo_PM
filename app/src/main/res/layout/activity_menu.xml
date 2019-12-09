@@ -6,94 +6,133 @@
     android:layout_height="match_parent"
     tools:context=".Menu">
 
-    <Button
-        android:id="@+id/buttonCompartir"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="58dp"
-        android:text="@string/Compartir"
+    <ScrollView
+        android:id="@+id/scrollView3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/buttonAnadir"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="26dp"
-        android:text="@string/añadir"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/buttonBorrar"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="17dp"
-        android:text="@string/Borrar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonAnadir" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/buttonModificar"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="23dp"
-        android:text="@string/Modificar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonBorrar" />
+            <Button
+                android:id="@+id/buttonBLogros"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="27dp"
+                android:text="@string/BLogros"
+                app:layout_constraintBottom_toTopOf="@+id/buttonCompartir"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonVLogros" />
 
-    <Button
-        android:id="@+id/buttonAprender"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/Aprender"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonModificar" />
+            <Button
+                android:id="@+id/buttonCerrar"
+                android:layout_width="91dp"
+                android:layout_height="77dp"
+                android:layout_marginTop="36dp"
+                android:layout_marginEnd="38dp"
+                android:layout_marginBottom="11dp"
+                android:background="@android:drawable/ic_lock_power_off"
+                app:layout_constraintBottom_toTopOf="@+id/buttonAnadir"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView2"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/buttonSonido"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="@string/Act_Desc"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonAprender" />
+            <Button
+                android:id="@+id/buttonModificar"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="@string/Modificar"
+                app:layout_constraintBottom_toTopOf="@+id/buttonAprender"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonBorrar" />
 
-    <Button
-        android:id="@+id/buttonVLogros"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="27dp"
-        android:text="@string/VLogros"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonSonido" />
+            <Button
+                android:id="@+id/buttonBorrar"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="23dp"
+                android:text="@string/Borrar"
+                app:layout_constraintBottom_toTopOf="@+id/buttonModificar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonAnadir" />
 
-    <Button
-        android:id="@+id/buttonBLogros"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="27dp"
-        android:text="@string/BLogros"
-        app:layout_constraintBottom_toTopOf="@+id/buttonCompartir"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+            <Button
+                android:id="@+id/buttonAnadir"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="17dp"
+                android:text="@string/añadir"
+                app:layout_constraintBottom_toTopOf="@+id/buttonBorrar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonCerrar" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="29dp"
-        android:text="MENU"
-        android:textSize="50sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            <Button
+                android:id="@+id/buttonVLogros"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="29dp"
+                android:text="@string/VLogros"
+                app:layout_constraintBottom_toTopOf="@+id/buttonBLogros"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonSonido" />
+
+            <Button
+                android:id="@+id/buttonSonido"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="28dp"
+                android:text="@string/Act_Desc"
+                app:layout_constraintBottom_toTopOf="@+id/buttonVLogros"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonAprender" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="59dp"
+                android:layout_marginEnd="86dp"
+                android:layout_marginBottom="19dp"
+                android:text="MENU"
+                android:textSize="50sp"
+                app:layout_constraintBottom_toTopOf="@+id/buttonAnadir"
+                app:layout_constraintEnd_toStartOf="@+id/buttonCerrar"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                android:id="@+id/buttonCompartir"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:text="@string/Compartir"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonBLogros" />
+
+            <Button
+                android:id="@+id/buttonAprender"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="28dp"
+                android:text="@string/Aprender"
+                app:layout_constraintBottom_toTopOf="@+id/buttonSonido"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonModificar" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
