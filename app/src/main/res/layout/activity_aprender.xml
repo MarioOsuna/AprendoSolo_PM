@@ -23,6 +23,8 @@
             android:id="@+id/gridLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:columnCount="1"
+            android:orientation="vertical"
+            android:rowCount="3" />
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
