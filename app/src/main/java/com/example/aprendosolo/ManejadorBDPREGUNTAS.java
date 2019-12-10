@@ -8,13 +8,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class ManejadorBDPREGUNTAS extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "alumnos.db";
+    private static final String DATABASE_NAME = "PREGUNTAS.db";
 
-    private static final String TABLE_NAME = "alumnos";
+    private static final String TABLE_NAME = "PREGUNTAS";
     private static final String COL_1 = "ID";
-    private static final String COL_2 = "NOMBRE";
-    private static final String COL_3 = "APELLIDOS";
-    private static final String COL_4 = "NOTA";
+    private static final String COL_2 = "Pregunta";
+    private static final String COL_3 = "Respuesta_correcta";
+    private static final String COL_4 = "Respuesta_incorrecta1";
+    private static final String COL_5 = "Respuesta_incorrecta2";
 
     public ManejadorBDPREGUNTAS(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -24,8 +25,7 @@ public class ManejadorBDPREGUNTAS extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL("CREATE TABLE " + TABLE_NAME +
-                "(" + COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_2 + " TEXT, " + COL_3 + " TEXT," + COL_4 + " TEXT)");
+        db.execSQL("CREATE TABLE " + TABLE_NAME + "(" + COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_2 + " TEXT, " + COL_3 + " TEXT," + COL_4 + " TEXT," + COL_5 + " TEXT)");
 
     }
 
@@ -34,12 +34,13 @@ public class ManejadorBDPREGUNTAS extends SQLiteOpenHelper {
 
     }
 
-    public boolean insertar(String nombre, String apellidos, String nota) {
+    public boolean insertar(String pregunta, String respuesta, String incorrecta1,String incorrecta2) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_2, nombre);
-        contentValues.put(COL_3, apellidos);
-        contentValues.put(COL_4, nota);
+        contentValues.put(COL_2, pregunta);
+        contentValues.put(COL_3, respuesta);
+        contentValues.put(COL_4, incorrecta1);
+        contentValues.put(COL_5, incorrecta2);
 
         long resultado = db.insert(TABLE_NAME, null, contentValues);
 
@@ -72,12 +73,13 @@ public class ManejadorBDPREGUNTAS extends SQLiteOpenHelper {
 
     }
 
-    public boolean actualizar(String id, String nombre, String apellidos, String nota) {
+    public boolean actualizar(String id, String pregunta, String respuesta, String incorrecta1,String incorrecta2) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_2, nombre);
-        contentValues.put(COL_3, apellidos);
-        contentValues.put(COL_4, nota);
+        contentValues.put(COL_2, pregunta);
+        contentValues.put(COL_3, respuesta);
+        contentValues.put(COL_4, incorrecta1);
+        contentValues.put(COL_5, incorrecta2);
 
         long resultado = db.update(TABLE_NAME, contentValues, COL_1 + "=?", new String[]{id});
 
