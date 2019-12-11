@@ -8,13 +8,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class ManejadorBDLOGROS extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "alumnos.db";
+    private static final String DATABASE_NAME = "logros.db";
 
-    private static final String TABLE_NAME = "alumnos";
+    private static final String TABLE_NAME = "logros";
     private static final String COL_1 = "ID";
-    private static final String COL_2 = "NOMBRE";
-    private static final String COL_3 = "APELLIDOS";
-    private static final String COL_4 = "NOTA";
+    private static final String COL_2 = "HORA_FECHA";
+    private static final String COL_3 = "PUNTUACION";
+    private static final String COL_4 = "ACERTADAS";
+
 
     public ManejadorBDLOGROS(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -34,12 +35,12 @@ public class ManejadorBDLOGROS extends SQLiteOpenHelper {
 
     }
 
-    public boolean insertar(String nombre, String apellidos, String nota) {
+    public boolean insertar(String hora, String puntuacion, String acertadas) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_2, nombre);
-        contentValues.put(COL_3, apellidos);
-        contentValues.put(COL_4, nota);
+        contentValues.put(COL_2, hora);
+        contentValues.put(COL_3, puntuacion);
+        contentValues.put(COL_4, acertadas);
 
         long resultado = db.insert(TABLE_NAME, null, contentValues);
 
@@ -72,12 +73,12 @@ public class ManejadorBDLOGROS extends SQLiteOpenHelper {
 
     }
 
-    public boolean actualizar(String id, String nombre, String apellidos, String nota) {
+    public boolean actualizar(String id, String hora, String puntuacion, String acertadas) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_2, nombre);
-        contentValues.put(COL_3, apellidos);
-        contentValues.put(COL_4, nota);
+        contentValues.put(COL_2, hora);
+        contentValues.put(COL_3, puntuacion);
+        contentValues.put(COL_4, acertadas);
 
         long resultado = db.update(TABLE_NAME, contentValues, COL_1 + "=?", new String[]{id});
 

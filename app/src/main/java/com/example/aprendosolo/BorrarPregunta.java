@@ -49,6 +49,7 @@ public class BorrarPregunta extends AppCompatActivity {
                 if (resultado) {
                     Toast.makeText(BorrarPregunta.this, "Borrado correctamente", Toast.LENGTH_SHORT).show();
                     mostrar(manejadorBDPREGUNTAS);
+                    //listViewBorrar.updateViewLayout();
                 } else {
                     Toast.makeText(BorrarPregunta.this, "Nada fue borrado", Toast.LENGTH_SHORT).show();
                 }

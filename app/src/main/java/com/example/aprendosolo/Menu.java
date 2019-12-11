@@ -4,10 +4,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Menu extends AppCompatActivity {
     static String NOMBRE = "NOMBRE";
@@ -17,6 +22,9 @@ public class Menu extends AppCompatActivity {
     private int APRENDER = 4;
     private int LOGROS = 5;
     Button buttonCerrar, buttonAnadir, buttonBorrar, buttonModificar, buttonAprender, buttonSonido, buttonVLogros, buttonBLogros, buttonCompartir;
+    ManejadorBDPREGUNTAS manejadorBDPREGUNTAS;
+    ManejadorBDLOGROS manejadorBDLOGROS;
+    ManejadorBDENTRADAS manejadorBDENTRADAS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +39,10 @@ public class Menu extends AppCompatActivity {
         buttonVLogros = findViewById(R.id.buttonVLogros);
         buttonBLogros = findViewById(R.id.buttonBLogros);
         buttonCompartir = findViewById(R.id.buttonCompartir);
+
+        manejadorBDPREGUNTAS = new ManejadorBDPREGUNTAS(Menu.this);
+        manejadorBDLOGROS = new ManejadorBDLOGROS(Menu.this);
+        manejadorBDENTRADAS = new ManejadorBDENTRADAS(Menu.this);
 
         buttonCerrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,14 +111,18 @@ public class Menu extends AppCompatActivity {
         buttonCompartir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               /* Intent intentoEmail=new Intent(Intent.ACTION_SEND);
+                String compartir = "TABLA PREGUNTAS\n\n" + mostrarTablaPreguntas(manejadorBDPREGUNTAS);
 
-                intentoEmail.putExtra(Intent.EXTRA_EMAIL,new String[]{editTextEmail.getText().toString()});
-                intentoEmail.putExtra(Intent.EXTRA_SUBJECT,editTextAsunto.getText().toString());
-                intentoEmail.putExtra(Intent.EXTRA_TEXT,editTextcompartir.getText().toString());
+                /*"\nTABLA LOGROS\n\n"+mostrarTablaLogros(manejadorBDLOGROS)+"\nTABLA ENTRADA\n\n"+mostrarTablaEntradas(manejadorBDENTRADAS)*/
+
+                Intent intentoEmail = new Intent(Intent.ACTION_SEND);
+
+                intentoEmail.putExtra(Intent.EXTRA_EMAIL, new String[]{});
+                intentoEmail.putExtra(Intent.EXTRA_SUBJECT, "Datos de lo aprendido");
+                intentoEmail.putExtra(Intent.EXTRA_TEXT, compartir);
                 intentoEmail.setType("message/rfc822");
 
-                startActivity(Intent.createChooser(intentoEmail,"Escoge tu app de email favorito"));*/
+                startActivity(Intent.createChooser(intentoEmail, "Escoge tu app de email favorito"));
 
             }
         });
@@ -135,6 +151,66 @@ public class Menu extends AppCompatActivity {
             String nombre = data.getStringExtra(NOMBRE);
             Toast.makeText(this, nombre, Toast.LENGTH_SHORT).show();
         }
+
+    }
+
+    public String mostrarTablaPreguntas(ManejadorBDPREGUNTAS manejadorBDPREGUNTAS) {
+        Cursor cursor = manejadorBDPREGUNTAS.listar();
+        String fila = "";
+
+
+        while (cursor.moveToNext()) {
+            fila = "";
+            fila += "ID: " + cursor.getString(0) + "\n";
+            fila += " PREGUNTA: " + cursor.getString(1) + "\n";
+            fila += " RESPUESTA: " + cursor.getString(2) + "\n";
+            fila += " R_INC 1: " + cursor.getString(3) + "\n";
+            fila += " R_INC 2: " + cursor.getString(4) + "\n\n\n";
+
+
+        }
+
+
+        cursor.close();
+        return fila;
+
+    }
+
+    public String mostrarTablaLogros(ManejadorBDLOGROS manejadorBDLOGROS) {
+        Cursor cursor = manejadorBDLOGROS.listar();
+        String fila = "";
+
+
+        while (cursor.moveToNext()) {
+            fila = "";
+            fila += "Hora_fecha: " + cursor.getString(0) + "\n";
+            fila += "Puntuación: " + cursor.getString(1) + "\n";
+            fila += "Acertadas: " + cursor.getString(2) + "\n";
+
+
+        }
+
+
+        cursor.close();
+        return fila;
+
+    }
+
+    public String mostrarTablaEntradas(ManejadorBDENTRADAS manejadorBDENTRADAS) {
+        Cursor cursor = manejadorBDENTRADAS.listar();
+        String fila = "";
+
+
+        while (cursor.moveToNext()) {
+            fila = "";
+            fila += "ID: " + cursor.getString(0) + "\n";
+
+
+        }
+
+
+        cursor.close();
+        return fila;
 
     }
 }

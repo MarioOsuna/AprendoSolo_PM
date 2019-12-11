@@ -25,6 +25,6 @@
             android:layout_height="wrap_content"
             android:columnCount="1"
             android:orientation="vertical"
-            android:rowCount="3" />
+            android:rowCount="5" />
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
