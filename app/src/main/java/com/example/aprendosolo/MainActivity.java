@@ -65,8 +65,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public static final String SHARED_PREFS = "sharedPrefs";
 
     int PEDIR_PERMISO_GPS = 1;
-
-
+    private static final int PEDI_PERMISO_DE_ESCRITURA = 3;
+    private static final int VENGO_DE_LA_CAMARA_CON_FICHERO = 2;
     ImageView imageView;
     ManejadorBDENTRADAS manejadorBDENTRADAS;
     LocationManager locationManager;
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     String ID_CANAL = "mi canal favorito";
     int CODIGO_RESPUESTA = 1;
     SensorManager sensorManager;
-
+    File fichero = null;
 
 
     Bitmap btmap;
@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         buttonFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                pedirPermisoParaEscribirYhacerFoto();
 
             }
         });
@@ -320,6 +320,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         } else {
             Toast.makeText(this, "Debe conceder permiso para usar el GPS", Toast.LENGTH_SHORT).show();
         }
+        if(requestCode==PEDI_PERMISO_DE_ESCRITURA){
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                capturarFoto();
+            } else {
+                Toast.makeText(this, "Sin permiso de escritura no puedo hacer foto en alta resolución.", Toast.LENGTH_LONG).show();
+            }
+        }
 
 
     }
@@ -375,6 +383,48 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         editor.putString("Imagen", path.toString());
         editor.apply();
     }
+    private File crearFicheroImagen() throws IOException {
+
+        String fechaYHora = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String nombreFichero = "misFotos_" + fechaYHora;
+        File carpetaDeFotos = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File imagen = File.createTempFile(nombreFichero, ".jpg", carpetaDeFotos);
+        return imagen;
+
+    }
+    void pedirPermisoParaEscribirYhacerFoto() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PEDI_PERMISO_DE_ESCRITURA);
+            }
+        }else{
+            capturarFoto();
+        }
+
+    }
+    private void capturarFoto() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+
+        try {
+            fichero = crearFicheroImagen();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(fichero));
+
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(intent, VENGO_DE_LA_CAMARA_CON_FICHERO);
+        } else {
+            Toast.makeText(this, "No tengo programa para hacer fotos.", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
 
 
 }
