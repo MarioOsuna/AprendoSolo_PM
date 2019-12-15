@@ -23,8 +23,16 @@
             android:id="@+id/gridLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:columnCount="1"
+            android:columnCount="2"
             android:orientation="vertical"
-            android:rowCount="5" />
+            android:rowCount="5">
+
+            <Button
+                android:id="@+id/buttonEnviarRespuesta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Enviar" />
+
+        </GridLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

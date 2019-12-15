@@ -9,92 +9,161 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Aprender extends AppCompatActivity {
-    /*  RadioButton radioButton;
-      RadioGroup radioGroup;*/
+    RadioButton radioButton;
+
     GridLayout g;
     ManejadorBDPREGUNTAS manejadorBDPREGUNTAS;
-    int n, i;
+    int n;
+    Button button;
     String[] filaPreg, filaRes, filaInco, filaInco2;
+
+    int puntos = 0;
+    private boolean correcta;
+    private boolean siguiente;
+    private int acertadas=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_aprender);
+
         g = findViewById(R.id.gridLayout);
+        button = findViewById(R.id.buttonEnviarRespuesta);
+
         manejadorBDPREGUNTAS = new ManejadorBDPREGUNTAS(Aprender.this);
         n = total();
+        //obtengo preguntas
         if (n != 0) {
-            final EditText editText[] = new EditText[n];
-            final EditText editText2[] = new EditText[n];
-            final RadioGroup radioGroup[] = new RadioGroup[n];
-            final RadioButton radioButtonCorrecto[] = new RadioButton[n];
-            final RadioButton radioButton2[] = new RadioButton[n];
-            final RadioButton radioButton3[] = new RadioButton[n];
-            final Button button[]=new Button[n];
+            Cursor cursor = manejadorBDPREGUNTAS.listar();
+            filaPreg = new String[n];
+            filaRes = new String[n];
+            filaInco = new String[n];
+            filaInco2 = new String[n];
+            int i = 0;
+            while (cursor.moveToNext()) {
 
+                cursor.getString(0);
+                filaPreg[i] = cursor.getString(1);
+                filaRes[i] = cursor.getString(2);
+                filaInco[i] = cursor.getString(3);
+                filaInco2[i] = cursor.getString(4);
+                i++;
 
-                editText[i] = new EditText(Aprender.this);
-                editText[i].setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                editText[i].setHint("Pregunta " + (i + 1));
-                editText[i].setInputType(InputType.TYPE_CLASS_TEXT);
-                editText[i].setId(View.generateViewId());
+            }
 
-                g.addView(editText[i]);
+            cursor.close();
+            final TextView[] textView = new TextView[n];
+            final RadioGroup[] radioGroup = new RadioGroup[n];
+           // g.setRowCount(n *);
 
-                mostrar(manejadorBDPREGUNTAS, n);
-                String pregunta = filaPreg[i];
-                String respuesta = filaRes[i];
-                String incorrecta1 = filaInco[i];
-                String incorrecta2 = filaInco2[i];
+            for (int preg = 0; preg < n; preg++) {
 
-                editText2[i] = new EditText(Aprender.this);
-                editText2[i].setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                editText2[i].setHint((i + 1) + ": " + pregunta);
-                editText2[i].setInputType(InputType.TYPE_CLASS_TEXT);
-                editText2[i].setId(View.generateViewId());
+                textView[preg] = new TextView(Aprender.this);
+                textView[preg].setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                textView[preg].setText(filaPreg[preg]);
+                textView[preg].setInputType(InputType.TYPE_CLASS_TEXT);
+                textView[preg].setId(View.generateViewId());
 
-                g.addView(editText2[i]);
+                g.addView(textView[preg]);
 
-                radioGroup[i] = new RadioGroup(Aprender.this);
-                radioGroup[i].setOrientation(LinearLayout.HORIZONTAL);
-                radioGroup[i].setId(View.generateViewId());
+                radioGroup[preg] = new RadioGroup(Aprender.this);
+                radioGroup[preg].setOrientation(LinearLayout.VERTICAL);
+                radioGroup[preg].setId(View.generateViewId());
 
-                for (int i = 1; i <= n; i++) {
-                    RadioButton rdbtn = new RadioButton(this);
-                    rdbtn.setId(View.generateViewId());
-                    rdbtn.setText("Radio " + rdbtn.getId());
-                    radioGroup[i].addView(rdbtn);
+                int num1;
+                int num2 = 1;
+                int num3 = 1;
+
+                int numero = (int) (Math.random() * 3) + 1;
+                num1 = numero;
+                for (int n = 0; n < 3; n++) {
+
+                    if (num1 == num2) {
+                        numero = (int) (Math.random() * 3) + 1;
+                        num2 = numero;
+                        n--;
+                    }
+                    if (num3 == num2) {
+                        numero = (int) (Math.random() * 3) + 1;
+                        num3 = numero;
+                        n--;
+                    }
+                    if (num3 == num1) {
+                        numero = (int) (Math.random() * 3) + 1;
+                        num1 = numero;
+                        n--;
+                    }
+                    if (num1 != num2 && num3 != num2 && num3 != num1) {
+                        n = 3;
+                    }
+
                 }
-                g.addView(radioGroup[i]);
+                int respuesta = 0;
+                for (int j = 1; j <= 3; j++) {
+                    final RadioButton rdbtn = new RadioButton(this);
 
-                button[i] = new Button(Aprender.this);
-                button[i].setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                button[i].setText("Enviar");
-                button[i].setId(View.generateViewId());
+                    rdbtn.setId(((j)));
+                    if (j == num1) {
+                        rdbtn.setId(((j)));
+                        rdbtn.setText(" " + rdbtn.getId() + " " + filaRes[preg]);
+                        respuesta = j;
+                    }
+                    if (j == num2) {
+                        rdbtn.setId(((j)));
+                        rdbtn.setText(" " + rdbtn.getId() + " " + filaInco[preg]);
+                    }
+                    if (j == num3) {
+                        rdbtn.setId(((j)));
+                        rdbtn.setText(" " + rdbtn.getId() + " " + filaInco2[preg]);
+                    }
+                    final int finalRespuesta = respuesta;
+                    rdbtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if (finalRespuesta == rdbtn.getId()) {
+                                correcta = true;
+                            } else {
+                                correcta = false;
+                            }
+                        }
+                    });
 
-                button[i].setOnClickListener(new View.OnClickListener() {
+                    radioGroup[preg].addView(rdbtn);
+                }
+                g.addView(radioGroup[preg]);
+
+
+                button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        g.removeAllViewsInLayout();
+                         siguiente = true;
+                         acertadas++;
+                        Toast.makeText(Aprender.this, "Es " + correcta, Toast.LENGTH_SHORT).show();
+
 
                     }
                 });
-                g.addView(button[i]);
-                i++;
-                // ((ViewGroup) findViewById(R.id.radioGroup[i])).addView(radioGroup[i]);
 
 
+
+            }
+            Toast.makeText(this, "Acertadas "+acertadas, Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(this, "No se han introducido preguntas", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -113,28 +182,6 @@ public class Aprender extends AppCompatActivity {
             Toast.makeText(Aprender.this, "No hay preguntas introducidas", Toast.LENGTH_SHORT).show();
         }
         return filas;
-    }
-
-    public void mostrar(ManejadorBDPREGUNTAS manejadorBDPREGUNTAS, int n) {
-        Cursor cursor = manejadorBDPREGUNTAS.listar();
-        filaPreg = new String[n];
-        filaRes = new String[n];
-        filaInco = new String[n];
-        filaInco2 = new String[n];
-        int i = 0;
-        while (cursor.moveToNext()) {
-
-            cursor.getString(0);
-            filaPreg[i] = cursor.getString(1);
-            filaRes[i] = cursor.getString(2);
-            filaInco[i] = cursor.getString(3);
-            filaInco2[i] = cursor.getString(4);
-            i++;
-
-        }
-
-        cursor.close();
-
     }
 
 
