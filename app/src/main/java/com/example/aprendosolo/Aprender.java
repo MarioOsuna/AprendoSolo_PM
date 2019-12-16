@@ -1,9 +1,20 @@
 package com.example.aprendosolo;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -36,7 +47,8 @@ public class Aprender extends AppCompatActivity {
     int n;
     Button button;
     String[] filaPreg, filaRes, filaInco, filaInco2;
-
+    String ID_CANAL = "mi canal favorito";
+    int CODIGO_RESPUESTA = 1;
     int puntos = 0;
     private boolean correcta;
     private boolean siguiente;
@@ -221,7 +233,7 @@ public class Aprender extends AppCompatActivity {
                 Toast.makeText(this, "Finalizado has acertado " + acertadas + " de " + n, Toast.LENGTH_SHORT).show();
                 button.setEnabled(false);
                 System.out.println("Acertadas3: "+acertadas);
-
+                lanzarNotificacionConImagen(String.valueOf(acertadas));
                 manejadorBDLOGROS.insertar(fecha, String.valueOf(acertadas));
             } else {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -233,7 +245,7 @@ public class Aprender extends AppCompatActivity {
                 Toast.makeText(this, "Finalizado has acertado " + acertadas + " de " + n, Toast.LENGTH_SHORT).show();
                 button.setEnabled(false);
                 System.out.println("Acertadas2: "+ String.valueOf(acertadas));
-
+                lanzarNotificacionConImagen(String.valueOf(acertadas));
                 manejadorBDLOGROS.insertar(fecha, String.valueOf(acertadas));
 
 
@@ -301,6 +313,48 @@ public class Aprender extends AppCompatActivity {
         int segundos = calendario.get(Calendar.SECOND);
         cadena=(hora+1)+":"+minutos+":"+segundos;
         return cadena;
+    }
+    private void lanzarNotificacionConImagen(String aciertos) {
+
+        int notifyId = 4;
+
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(this, ID_CANAL)
+                        .setSmallIcon(R.drawable.ic_launcher_background)
+                        .setContentTitle("Resultado del test")
+                        .setAutoCancel(true)
+                        .setContentText("Aciertos "+aciertos);
+
+
+        NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
+        bigPictureStyle.bigPicture(BitmapFactory.decodeResource(getResources(), R.drawable.test)).build();
+
+        builder.setStyle(bigPictureStyle);
+
+        Intent intent = getIntent();
+        TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(Aprender.this);
+        taskStackBuilder.addNextIntent(intent);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, CODIGO_RESPUESTA, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(pendingIntent);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            builder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE | Notification.DEFAULT_LIGHTS);
+        } else {
+            String idChanel = "4";
+            String nombreCanal = "micanal";
+
+            NotificationChannel channel = new NotificationChannel(idChanel, nombreCanal, NotificationManager.IMPORTANCE_DEFAULT);
+            channel.enableLights(true);
+            channel.setLightColor(Color.RED);
+            channel.enableVibration(true);
+            builder.setChannelId(idChanel);
+            notificationManager.createNotificationChannel(channel);
+
+        }
+
+        notificationManager.notify(notifyId, builder.build());
     }
 
 
