@@ -2,10 +2,19 @@ package com.example.aprendosolo;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -22,6 +31,8 @@ public class Menu extends AppCompatActivity {
     private int MODIFICAR = 3;
     private int APRENDER = 4;
     private int LOGROS = 5;
+    int CODIGO_RESPUESTA = 1;
+    String ID_CANAL = "mi canal favorito";
     boolean suena=true;
     Button buttonCerrar, buttonAnadir, buttonBorrar, buttonModificar, buttonAprender, buttonSonido, buttonVLogros, buttonBLogros, buttonCompartir;
     ManejadorBDPREGUNTAS manejadorBDPREGUNTAS;
@@ -122,12 +133,13 @@ public class Menu extends AppCompatActivity {
         buttonBLogros.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean delete=manejadorBDLOGROS.borrar();
-                if(delete){
-                    //Toast.makeText(Menu.this, "Borrado correctamente", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(Menu.this, "No se ha borrado correctamente", Toast.LENGTH_SHORT).show();
-                }
+                boolean delete=manejadorBDLOGROS.borrar();               
+                boolean delete2=manejadorBDENTRADAS.borrar();
+                
+
+                    lanzarNotificacion("Borrado de las tablas logros y entradas");
+
+
 
             }
         });
@@ -143,10 +155,56 @@ public class Menu extends AppCompatActivity {
                 intentoEmail.putExtra(Intent.EXTRA_TEXT, compartir);
                 intentoEmail.setType("message/rfc822");
 
-               // startActivity(Intent.createChooser(intentoEmail, "Escoge tu app de email favorito"));
+               startActivity(Intent.createChooser(intentoEmail, "Escoge tu app de email favorito"));
 
             }
         });
+    }
+
+    private void lanzarNotificacion(String cadena) {
+
+        //Id para la notificación
+        int notifyId = 1;
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        //Esto
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent2 = PendingIntent.getActivity(this, 0, intent, 0);
+        //Hasta aquí he metido yo
+
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(this, ID_CANAL)
+                        .setSmallIcon(R.drawable.ic_launcher_background)
+                        .setContentTitle("Borrado de tablas")
+                        .setAutoCancel(true)
+                        .setContentText(cadena)
+                        .setContentIntent(pendingIntent2);
+
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            builder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE | Notification.DEFAULT_LIGHTS);
+        } else {
+            String idChanel = "1";
+            String nombreCanal = "micanal";
+
+            NotificationChannel channel = new NotificationChannel(idChanel, nombreCanal, NotificationManager.IMPORTANCE_DEFAULT);
+            channel.enableLights(true);
+            channel.setLightColor(Color.BLUE);
+            channel.enableVibration(true);
+            builder.setChannelId(idChanel);
+            notificationManager.createNotificationChannel(channel);
+
+        }
+
+
+        TaskStackBuilder taskStackBuilder = TaskStackBuilder.create(getApplicationContext());
+        taskStackBuilder.addNextIntent(getIntent());
+        PendingIntent pendingIntent = taskStackBuilder.getPendingIntent(CODIGO_RESPUESTA, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        builder.setContentIntent(pendingIntent);
+
+
+        notificationManager.notify(notifyId, builder.build());
     }
 
     @Override

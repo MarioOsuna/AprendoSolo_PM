@@ -40,7 +40,7 @@ public class Aprender extends AppCompatActivity {
     int puntos = 0;
     private boolean correcta;
     private boolean siguiente;
-    private int acertadas = 0;
+    private int acertadas=0;
     int[] alt;
     MediaPlayer mediaPlayer;
 
@@ -73,6 +73,7 @@ public class Aprender extends AppCompatActivity {
 
     public void crear(int preg) {
         String res = "";
+      final int num=0;
         siguiente = true;
         Cursor cursor = manejadorBDPREGUNTAS.listar();
         filaPreg = new String[n];
@@ -195,6 +196,8 @@ public class Aprender extends AppCompatActivity {
                     if (correcta) {
                         Toast.makeText(Aprender.this, "La respuesta es correcta ", Toast.LENGTH_SHORT).show();
                         acertadas++;
+
+                        System.out.println("Acertadas1: "+acertadas);
                         sonido(true);
                     } else {
                         Toast.makeText(Aprender.this, "La respuesta correcta es " + finalRes, Toast.LENGTH_SHORT).show();
@@ -208,6 +211,7 @@ public class Aprender extends AppCompatActivity {
 
 
         } else {
+          //  num=acertadas;
             if (preg == 6) {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 Date date = new Date();
@@ -216,6 +220,8 @@ public class Aprender extends AppCompatActivity {
                 Toast.makeText(this, "preg " + preg + "n " + n, Toast.LENGTH_SHORT).show();
                 Toast.makeText(this, "Finalizado has acertado " + acertadas + " de " + n, Toast.LENGTH_SHORT).show();
                 button.setEnabled(false);
+                System.out.println("Acertadas3: "+acertadas);
+
                 manejadorBDLOGROS.insertar(fecha, String.valueOf(acertadas));
             } else {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -226,6 +232,8 @@ public class Aprender extends AppCompatActivity {
                 Toast.makeText(this, "preg " + preg + "n " + n, Toast.LENGTH_SHORT).show();
                 Toast.makeText(this, "Finalizado has acertado " + acertadas + " de " + n, Toast.LENGTH_SHORT).show();
                 button.setEnabled(false);
+                System.out.println("Acertadas2: "+ String.valueOf(acertadas));
+
                 manejadorBDLOGROS.insertar(fecha, String.valueOf(acertadas));
 
 
@@ -291,7 +299,7 @@ public class Aprender extends AppCompatActivity {
         int hora = calendario.get(Calendar.HOUR_OF_DAY);
         int minutos = calendario.get(Calendar.MINUTE);
         int segundos = calendario.get(Calendar.SECOND);
-        cadena=hora+":"+minutos+":"+segundos;
+        cadena=(hora+1)+":"+minutos+":"+segundos;
         return cadena;
     }
 
