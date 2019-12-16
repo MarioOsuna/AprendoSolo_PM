@@ -57,18 +57,20 @@ import androidx.core.content.ContextCompat;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
     static String PRIMERO = "NOMBRE";
-    private int MENU = 1;
-    private int GALERIA = 3;
+    private int MENU = 6;
+    private int GALERIA = 5;
     static String CONTRASENA = "CONTRASEÑA";
     Button buttonEntrar, buttonGaleria, buttonFoto;
     EditText editTextPassword;
     public static final String SHARED_PREFS = "sharedPrefs";
+    private static final int PETICION_CAMARA = 4;
 
     int PEDIR_PERMISO_GPS = 1;
     private static final int PEDI_PERMISO_DE_ESCRITURA = 3;
     private static final int VENGO_DE_LA_CAMARA_CON_FICHERO = 2;
     ImageView imageView;
     ManejadorBDENTRADAS manejadorBDENTRADAS;
+    ManejadorBDLOGROS manejadorBDLOGROS;
     LocationManager locationManager;
     LocationListener locationListener;
     int tiempoRefresco = 500;
@@ -97,18 +99,20 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         imageView = findViewById(R.id.imageView);
 
         final SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        SharedPreferences sharedpreferencesImage=getSharedPreferences("Preferencias", MODE_PRIVATE);;
+        SharedPreferences sharedpreferencesImage = getSharedPreferences("Preferencias", MODE_PRIVATE);
+
 
         manejadorBDENTRADAS = new ManejadorBDENTRADAS(MainActivity.this);
+        manejadorBDLOGROS = new ManejadorBDLOGROS(MainActivity.this);
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensorManager.registerListener(MainActivity.this, sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT), sensorManager.SENSOR_DELAY_NORMAL);
 
         if (!sharedPreferences.getString(CONTRASENA, " ").equals(" ")) {
             String u = sharedpreferencesImage.getString("Imagen", "");
             Uri myUri = Uri.parse(u);
-            Toast.makeText(this, ""+myUri, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "" + myUri, Toast.LENGTH_SHORT).show();
 
-          //  imageView.setImageURI(myUri);
+            //  imageView.setImageURI(myUri);
             lanzarNotificacionConTextoLargo();
         }
         buttonEntrar.setOnClickListener(new View.OnClickListener() {
@@ -198,23 +202,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         onNewIntent(getIntent());
     }
 
-    public static Bitmap decodeBase64(String input) {
-        byte[] decodedByte = Base64.decode(input, 0);
-        return BitmapFactory
-                .decodeByteArray(decodedByte, 0, decodedByte.length);
-    }
-
-    public static String encodeTobase64(Bitmap image) {
-        Bitmap immage = image;
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        immage.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] b = baos.toByteArray();
-        String imageEncoded = Base64.encodeToString(b, Base64.DEFAULT);
-
-        Log.d("Image Log:", imageEncoded);
-        return imageEncoded;
-
-    }
 
     @Override
     protected void onNewIntent(Intent intent) {
@@ -231,7 +218,24 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     private void lanzarNotificacionConTextoLargo() {
+        String fyh = "";
+        String punt = "";
 
+        Cursor cursor = manejadorBDLOGROS.listar();
+
+
+        if ((cursor != null) && (cursor.getCount() > 0)) {
+            while (cursor.moveToNext()) {
+
+                fyh = cursor.getString(1);
+                punt = cursor.getString(2);
+
+
+            }
+
+
+            cursor.close();
+        }
         int notifyId = 2;
 
         NotificationCompat.Builder builder =
@@ -239,15 +243,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         .setSmallIcon(R.drawable.ic_launcher_background)
                         .setContentTitle("Ejemplo de notificación con más texto")
                         .setAutoCancel(true)
-                        .setContentText("Texto inicial.");
+                        .setContentText("Fecha y hora del último acceso" + fyh);
         NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
-        inboxStyle.setBigContentTitle("Este mensaje tiene más cosas");
+        inboxStyle.setBigContentTitle("Puntuación obtenida la última vez " + punt);
 
-        inboxStyle.addLine("una línea nueva");
-        inboxStyle.addLine("Otro mensajito de mi amiguito");
-        inboxStyle.addLine("Pedro estate atento");
-        inboxStyle.addLine("Pedro deja de bostezar");
-        inboxStyle.addLine("Sergio te estoy vigilando");
 
         builder.setStyle(inboxStyle);
 
@@ -305,7 +304,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
 
         if (requestCode == PEDIR_PERMISO_GPS) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -320,7 +320,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         } else {
             Toast.makeText(this, "Debe conceder permiso para usar el GPS", Toast.LENGTH_SHORT).show();
         }
-        if(requestCode==PEDI_PERMISO_DE_ESCRITURA){
+        if (requestCode == PEDI_PERMISO_DE_ESCRITURA) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
                 capturarFoto();
@@ -344,11 +344,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             Uri path = data.getData();
 
             imageView.setImageURI(path);
-            Toast.makeText(this, ""+path, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "" + path, Toast.LENGTH_SHORT).show();
 
             conservarImagen(path);
+        }
+        if (requestCode == PETICION_CAMARA && resultCode == RESULT_OK) {
 
+            Bitmap foto = (Bitmap) data.getExtras().get("data"); //es una imagen previa a baja resolución
+            imageView.setImageBitmap(foto);
+            //imageView.setImageBitmap(BitmapFactory.decodeFile(fichero.getAbsolutePath()));
 
+        } else if (requestCode == VENGO_DE_LA_CAMARA_CON_FICHERO && resultCode == RESULT_OK) {
+            imageView.setImageBitmap(BitmapFactory.decodeFile(fichero.getAbsolutePath()));
 
         }
 
@@ -377,12 +384,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
 
     }
-    public void conservarImagen(Uri path){
+
+    public void conservarImagen(Uri path) {
         SharedPreferences preferences = getSharedPreferences("Preferencias", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("Imagen", path.toString());
         editor.apply();
     }
+
     private File crearFicheroImagen() throws IOException {
 
         String fechaYHora = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -392,6 +401,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         return imagen;
 
     }
+
     void pedirPermisoParaEscribirYhacerFoto() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -400,11 +410,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             } else {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, PEDI_PERMISO_DE_ESCRITURA);
             }
-        }else{
+        } else {
             capturarFoto();
         }
 
     }
+
     private void capturarFoto() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -424,7 +435,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
 
     }
-
 
 
 }

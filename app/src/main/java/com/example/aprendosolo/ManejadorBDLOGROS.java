@@ -8,13 +8,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class ManejadorBDLOGROS extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "logros.db";
+    private static final String DATABASE_NAME = "LOGROS.db";
 
-    private static final String TABLE_NAME = "logros";
+    private static final String TABLE_NAME = "LOGROS";
     private static final String COL_1 = "ID";
     private static final String COL_2 = "HORA_FECHA";
     private static final String COL_3 = "PUNTUACION";
-    private static final String COL_4 = "ACERTADAS";
+
 
 
     public ManejadorBDLOGROS(Context context) {
@@ -25,8 +25,7 @@ public class ManejadorBDLOGROS extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL("CREATE TABLE " + TABLE_NAME +
-                "(" + COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_2 + " TEXT, " + COL_3 + " TEXT," + COL_4 + " TEXT)");
+        db.execSQL("CREATE TABLE " + TABLE_NAME +"(" + COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_2 + " TEXT, " + COL_3 + " TEXT)");
 
     }
 
@@ -35,12 +34,12 @@ public class ManejadorBDLOGROS extends SQLiteOpenHelper {
 
     }
 
-    public boolean insertar(String hora, String puntuacion, String acertadas) {
+    public boolean insertar(String hora, String puntuacion) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_2, hora);
         contentValues.put(COL_3, puntuacion);
-        contentValues.put(COL_4, acertadas);
+
 
         long resultado = db.insert(TABLE_NAME, null, contentValues);
 
@@ -64,9 +63,9 @@ public class ManejadorBDLOGROS extends SQLiteOpenHelper {
 
     }
 
-    boolean borrar(String id) {
+    boolean borrar() {
         SQLiteDatabase db = this.getWritableDatabase();
-        int filas_borradas = db.delete(TABLE_NAME, COL_1 + "=?", new String[]{id});
+        int filas_borradas = db.delete(TABLE_NAME, null, null);
         db.close();
 
         return (filas_borradas > 0);
@@ -78,7 +77,7 @@ public class ManejadorBDLOGROS extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_2, hora);
         contentValues.put(COL_3, puntuacion);
-        contentValues.put(COL_4, acertadas);
+
 
         long resultado = db.update(TABLE_NAME, contentValues, COL_1 + "=?", new String[]{id});
 

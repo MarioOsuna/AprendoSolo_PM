@@ -63,9 +63,9 @@ public class ManejadorBDENTRADAS extends SQLiteOpenHelper {
 
     }
 
-    boolean borrar(String id) {
+    boolean borrar() {
         SQLiteDatabase db = this.getWritableDatabase();
-        int filas_borradas = db.delete(TABLE_NAME, COL_1 + "=?", new String[]{id});
+        int filas_borradas = db.delete(TABLE_NAME, null, null);
         db.close();
 
         return (filas_borradas > 0);

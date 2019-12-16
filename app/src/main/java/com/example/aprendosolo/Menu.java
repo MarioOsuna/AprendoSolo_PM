@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -21,10 +22,12 @@ public class Menu extends AppCompatActivity {
     private int MODIFICAR = 3;
     private int APRENDER = 4;
     private int LOGROS = 5;
+    boolean suena=true;
     Button buttonCerrar, buttonAnadir, buttonBorrar, buttonModificar, buttonAprender, buttonSonido, buttonVLogros, buttonBLogros, buttonCompartir;
     ManejadorBDPREGUNTAS manejadorBDPREGUNTAS;
     ManejadorBDLOGROS manejadorBDLOGROS;
     ManejadorBDENTRADAS manejadorBDENTRADAS;
+    MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +93,21 @@ public class Menu extends AppCompatActivity {
         buttonSonido.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mediaPlayer = MediaPlayer.create(Menu.this, R.raw.cambio);
+                if(suena){
+                    //suena=!suena;
+                    suena=false;
+                    Toast.makeText(Menu.this, "Sonido desactivado", Toast.LENGTH_SHORT).show();
+                    mediaPlayer.start();
+                }else{
+                    suena=true;
+                    Toast.makeText(Menu.this, "Sonido activado ", Toast.LENGTH_SHORT).show();
+                    mediaPlayer.start();
+                }
+                Intent intent=  new Intent(Menu.this, Aprender.class);
+                intent.putExtra("boleano", suena);
 
+             //   startActivity(intent);
             }
         });
         buttonVLogros.setOnClickListener(new View.OnClickListener() {
@@ -105,15 +122,19 @@ public class Menu extends AppCompatActivity {
         buttonBLogros.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                boolean delete=manejadorBDLOGROS.borrar();
+                if(delete){
+                    //Toast.makeText(Menu.this, "Borrado correctamente", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(Menu.this, "No se ha borrado correctamente", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
         buttonCompartir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String compartir = "TABLA PREGUNTAS\n\n" + mostrarTablaPreguntas(manejadorBDPREGUNTAS);
-
-                /*"\nTABLA LOGROS\n\n"+mostrarTablaLogros(manejadorBDLOGROS)+"\nTABLA ENTRADA\n\n"+mostrarTablaEntradas(manejadorBDENTRADAS)*/
+                String compartir = "\nTABLA LOGROS\n\n"+mostrarTablaLogros(manejadorBDLOGROS);
 
                 Intent intentoEmail = new Intent(Intent.ACTION_SEND);
 
@@ -122,7 +143,7 @@ public class Menu extends AppCompatActivity {
                 intentoEmail.putExtra(Intent.EXTRA_TEXT, compartir);
                 intentoEmail.setType("message/rfc822");
 
-                startActivity(Intent.createChooser(intentoEmail, "Escoge tu app de email favorito"));
+               // startActivity(Intent.createChooser(intentoEmail, "Escoge tu app de email favorito"));
 
             }
         });
@@ -183,9 +204,9 @@ public class Menu extends AppCompatActivity {
 
         while (cursor.moveToNext()) {
             fila = "";
-            fila += "Hora_fecha: " + cursor.getString(0) + "\n";
-            fila += "Puntuación: " + cursor.getString(1) + "\n";
-            fila += "Acertadas: " + cursor.getString(2) + "\n";
+            fila += "Hora_fecha: " + cursor.getString(1) + "\n";
+            fila += "Puntuación: " + cursor.getString(2) + "\n";
+
 
 
         }
