@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 public class AnadirPreguntas extends AppCompatActivity {
     Button buttonAnadir, buttonVolver;
-    EditText editTextID, editTextCorrecta, editTextIncorrecta1, editTextIncorrecta2, editTextPregunta;
+    EditText  editTextCorrecta, editTextIncorrecta1, editTextIncorrecta2, editTextIncorrecta3, editTextPregunta;
     ManejadorBDPREGUNTAS manejadorBDPREGUNTAS;
 
     @Override
@@ -21,10 +21,11 @@ public class AnadirPreguntas extends AppCompatActivity {
         setContentView(R.layout.activity_anadir_preguntas);
         buttonAnadir = findViewById(R.id.buttonAnadirRow);
         buttonVolver = findViewById(R.id.buttonVolver2);
-        editTextID = findViewById(R.id.editTextID);
+
         editTextCorrecta = findViewById(R.id.editTextRespuestaCorrecta);
         editTextIncorrecta1 = findViewById(R.id.editTextIncorrecta1);
         editTextIncorrecta2 = findViewById(R.id.editTextIncorrecta2);
+        editTextIncorrecta3 = findViewById(R.id.editTextIncorrecta3);
         editTextPregunta = findViewById(R.id.editTextPregunta);
         manejadorBDPREGUNTAS = new ManejadorBDPREGUNTAS(AnadirPreguntas.this);
 
@@ -34,7 +35,7 @@ public class AnadirPreguntas extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                boolean resultado = manejadorBDPREGUNTAS.insertar(editTextPregunta.getText().toString(), editTextCorrecta.getText().toString(), editTextIncorrecta1.getText().toString(), editTextIncorrecta2.getText().toString());
+                boolean resultado = manejadorBDPREGUNTAS.insertar(editTextPregunta.getText().toString(), editTextCorrecta.getText().toString(), editTextIncorrecta1.getText().toString(), editTextIncorrecta2.getText().toString(), editTextIncorrecta3.getText().toString());
 
                 if (resultado == true) {
                     Toast.makeText(AnadirPreguntas.this, "Insertado correctamente", Toast.LENGTH_SHORT).show();

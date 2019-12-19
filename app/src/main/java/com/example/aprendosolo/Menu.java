@@ -109,12 +109,13 @@ public class Menu extends AppCompatActivity {
                     //suena=!suena;
                     suena=false;
                     Toast.makeText(Menu.this, "Sonido desactivado", Toast.LENGTH_SHORT).show();
-                    mediaPlayer.start();
+                   // mediaPlayer.start();
                 }else{
                     suena=true;
                     Toast.makeText(Menu.this, "Sonido activado ", Toast.LENGTH_SHORT).show();
                     mediaPlayer.start();
                 }
+
                 Intent intent=  new Intent(Menu.this, Aprender.class);
                 intent.putExtra("boleano", suena);
 

@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         editTextPassword = findViewById(R.id.editTextPassword);
         imageView = findViewById(R.id.imageView);
 
+
         final SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         SharedPreferences sharedpreferencesImage = getSharedPreferences("Preferencias", MODE_PRIVATE);
 
@@ -107,12 +108,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensorManager.registerListener(MainActivity.this, sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT), sensorManager.SENSOR_DELAY_NORMAL);
 
+        inicio();
         if (!sharedPreferences.getString(CONTRASENA, " ").equals(" ")) {
             String u = sharedpreferencesImage.getString("Imagen", "");
             Uri myUri = Uri.parse(u);
             Toast.makeText(this, "" + myUri, Toast.LENGTH_SHORT).show();
 
-            //  imageView.setImageURI(myUri);
+            // imageView.setImageURI(myUri);
+            Intent intentodistancia=  new Intent(MainActivity.this, VerLogros.class);
+            intentodistancia.putExtra("distancia",obtener());
             lanzarNotificacionConTextoLargo();
         }
         buttonEntrar.setOnClickListener(new View.OnClickListener() {
@@ -374,14 +378,56 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         int scale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
 
         float battery = (level / (float) scale) * 100;
-        String gps = "" + Latitud + "," + Longitud;
-        boolean resultado = manejadorBDENTRADAS.insertar(fecha, String.valueOf(battery), gps);
+
+        String lat = "" + Latitud;
+        String lon = "" + Longitud;
+
+        float distancia = 0;
+
+
+        boolean resultado = manejadorBDENTRADAS.insertar(fecha, String.valueOf(battery)+"%",lat,lon );
 
         if (resultado == true) {
-            Toast.makeText(MainActivity.this, "Insertado correctamente", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(MainActivity.this, "Insertado correctamente", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(MainActivity.this, "Error al insertar", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(MainActivity.this, "Error al insertar", Toast.LENGTH_SHORT).show();
         }
+
+    }
+
+
+    public float obtener() {
+
+        Location locationA = new Location("punto A");
+        Location locationB = new Location("punto B");
+
+
+        Cursor cursor = manejadorBDENTRADAS.listar();
+        String fila = "";
+        String lat = "";
+        String lon = "";
+        int i = 0;
+
+        while (cursor.moveToNext()) {
+
+            lat = cursor.getString(3);
+            lon = cursor.getString(4);
+
+            if (i == 0) {
+                locationA.setLatitude(Float.parseFloat(lat));
+                locationA.setLongitude(Float.parseFloat(lon));
+            } else {
+                locationB.setLatitude(Float.parseFloat(lat));
+                locationB.setLongitude(Float.parseFloat(lon));
+            }
+            i++;
+        }
+
+        cursor.close();
+
+
+            System.out.println("Distancia"+locationA.distanceTo(locationB));
+        return  locationA.distanceTo(locationB);
 
     }
 

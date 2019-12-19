@@ -14,7 +14,8 @@ public class ManejadorBDENTRADAS extends SQLiteOpenHelper {
     private static final String COL_1 = "ID";
     private static final String COL_2 = "FECHAYHORA";
     private static final String COL_3 = "BATERIA";
-    private static final String COL_4 = "GPS";
+    private static final String COL_4 = "LATITUD";
+    private static final String COL_5 = "LONGITUD";
 
     public ManejadorBDENTRADAS(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -25,7 +26,7 @@ public class ManejadorBDENTRADAS extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         db.execSQL("CREATE TABLE " + TABLE_NAME +
-                "(" + COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_2 + " TEXT, " + COL_3 + " TEXT," + COL_4 + " TEXT)");
+                "(" + COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_2 + " TEXT, " + COL_3 + " TEXT," + COL_4 + " TEXT,"+ COL_5 + " TEXT)");
 
     }
 
@@ -34,12 +35,13 @@ public class ManejadorBDENTRADAS extends SQLiteOpenHelper {
 
     }
 
-    public boolean insertar(String fechayhora,String bateria,String gps) {
+    public boolean insertar(String fechayhora,String bateria,String latitud,String longitud) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_2, fechayhora);
         contentValues.put(COL_3, bateria);
-        contentValues.put(COL_4, gps);
+        contentValues.put(COL_4, latitud);
+        contentValues.put(COL_5, longitud);
 
         long resultado = db.insert(TABLE_NAME, null, contentValues);
 
@@ -72,12 +74,13 @@ public class ManejadorBDENTRADAS extends SQLiteOpenHelper {
 
     }
 
-    public boolean actualizar(String id, String fechayhora,String bateria,String gps) {
+    public boolean actualizar(String id, String fechayhora,String bateria,String latitud,String longitud) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_2, fechayhora);
         contentValues.put(COL_3, bateria);
-        contentValues.put(COL_4, gps);
+        contentValues.put(COL_4, latitud);
+        contentValues.put(COL_5, longitud);
 
         long resultado = db.update(TABLE_NAME, contentValues, COL_1 + "=?", new String[]{id});
 

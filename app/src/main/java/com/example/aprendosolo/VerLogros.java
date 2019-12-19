@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -21,7 +22,8 @@ public class VerLogros extends AppCompatActivity {
     TextView textViewMetros;
     ListView ListaLogros;
 
-ManejadorBDLOGROS manejadorBDLOGROS;
+    ManejadorBDLOGROS manejadorBDLOGROS;
+    ManejadorBDENTRADAS manejadorBDENTRADAS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +31,12 @@ ManejadorBDLOGROS manejadorBDLOGROS;
         setContentView(R.layout.activity_ver_logros);
         buttonVolver = findViewById(R.id.buttonVolver);
         textViewMetros = findViewById(R.id.textViewMetros);
-        ListaLogros=findViewById(R.id.ListaLogros);
+        ListaLogros = findViewById(R.id.ListaLogros);
+
+
         manejadorBDLOGROS = new ManejadorBDLOGROS(VerLogros.this);
+        manejadorBDENTRADAS = new ManejadorBDENTRADAS(VerLogros.this);
+        textViewMetros.setText("" + getIntent().getFloatExtra("distancia", 0));
         mostrar(manejadorBDLOGROS);
         buttonVolver.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,6 +48,7 @@ ManejadorBDLOGROS manejadorBDLOGROS;
             }
         });
     }
+
     public void mostrar(ManejadorBDLOGROS manejadorBDLOGROS) {
         Cursor cursor = manejadorBDLOGROS.listar();
 
@@ -65,4 +72,5 @@ ManejadorBDLOGROS manejadorBDLOGROS;
             Toast.makeText(VerLogros.this, "Nada que mostar", Toast.LENGTH_SHORT).show();
         }
     }
+
 }

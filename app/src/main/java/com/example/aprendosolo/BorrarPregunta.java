@@ -72,6 +72,7 @@ public class BorrarPregunta extends AppCompatActivity {
                 fila += " RESPUESTA: " + cursor.getString(2);
                 fila += " R_INC 1: " + cursor.getString(3);
                 fila += " R_INC 2: " + cursor.getString(4);
+                fila += " R_INC 3: " + cursor.getString(5);
                 list.add(fila);
 
             }

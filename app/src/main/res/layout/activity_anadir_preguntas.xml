@@ -8,8 +8,8 @@
 
     <ScrollView
         android:id="@+id/scrollView4"
-        android:layout_width="411dp"
-        android:layout_height="731dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,11 +21,11 @@
             android:orientation="vertical">
 
             <EditText
-                android:id="@+id/editTextIncorrecta2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="43dp"
-                android:layout_marginEnd="170dp"
+                android:id="@+id/editTextIncorrecta3"
+                android:layout_width="212dp"
+                android:layout_height="62dp"
+                android:layout_marginTop="80dp"
+                android:layout_marginEnd="172dp"
                 android:ems="10"
                 android:hint="@string/RespuestaIncorrecta"
                 android:inputType="textPersonName"
@@ -33,11 +33,38 @@
                 app:layout_constraintTop_toBottomOf="@+id/editTextIncorrecta1" />
 
             <EditText
+                android:id="@+id/editTextPregunta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="26dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="63dp"
+                android:ems="10"
+                android:hint="@string/Pregunta"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toStartOf="@+id/buttonAnadirRow"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonVolver2" />
+
+            <EditText
+                android:id="@+id/editTextRespuestaCorrecta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="172dp"
+                android:ems="10"
+                android:hint="@string/Respuesta"
+                android:inputType="textPersonName"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextPregunta" />
+
+            <EditText
                 android:id="@+id/editTextIncorrecta1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="28dp"
-                android:layout_marginTop="53dp"
+                android:layout_marginTop="28dp"
                 android:ems="10"
                 android:hint="@string/RespuestaIncorrecta"
                 android:inputType="textPersonName"
@@ -45,27 +72,27 @@
                 app:layout_constraintTop_toBottomOf="@+id/editTextRespuestaCorrecta" />
 
             <EditText
-                android:id="@+id/editTextPregunta"
+                android:id="@+id/editTextIncorrecta2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="26dp"
-                android:layout_marginTop="37dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="172dp"
                 android:ems="10"
-                android:hint="@string/Pregunta"
+                android:hint="@string/RespuestaIncorrecta"
                 android:inputType="textPersonName"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextID" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextIncorrecta1" />
 
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="52dp"
-                android:layout_marginBottom="56dp"
+                android:layout_marginTop="96dp"
+                android:layout_marginEnd="32dp"
                 android:text="@string/añadir"
                 android:textSize="30sp"
-                app:layout_constraintBottom_toTopOf="@+id/editTextID"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <Button
                 android:id="@+id/buttonVolver2"
@@ -77,41 +104,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/editTextRespuestaCorrecta"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="49dp"
-                android:layout_marginEnd="172dp"
-                android:ems="10"
-                android:hint="@string/Respuesta"
-                android:inputType="textPersonName"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextPregunta" />
-
-            <EditText
-                android:id="@+id/editTextID"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="28dp"
-                android:layout_marginTop="45dp"
-                android:layout_marginEnd="2dp"
-                android:ems="10"
-                android:hint="ID  "
-                android:inputType="textPersonName"
-                app:layout_constraintEnd_toStartOf="@+id/buttonAnadirRow"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/buttonVolver2" />
-
             <Button
                 android:id="@+id/buttonAnadirRow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="21dp"
+                android:layout_marginTop="56dp"
+                android:layout_marginEnd="32dp"
                 android:text="@string/Añadir1"
-                app:layout_constraintBaseline_toBaselineOf="@+id/editTextID"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/editTextID" />
+                app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

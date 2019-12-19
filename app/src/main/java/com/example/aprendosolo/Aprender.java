@@ -37,22 +37,25 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 public class Aprender extends AppCompatActivity {
-    RadioButton radioButton;
+
 
     GridLayout g;
     ManejadorBDPREGUNTAS manejadorBDPREGUNTAS;
     ManejadorBDLOGROS manejadorBDLOGROS;
     int n;
-    Button button;
-    String[] filaPreg, filaRes, filaInco, filaInco2;
+    int numero_preg;
+    Button button, buttonGenerar;
+    EditText editText;
+    String[] filaPreg, filaRes, filaInco, filaInco2, filaInco3;
     String ID_CANAL = "mi canal favorito";
     int CODIGO_RESPUESTA = 1;
     int puntos = 0;
     private boolean correcta;
     private boolean siguiente;
-    private int acertadas=0;
+    private int acertadas = 0;
     int[] alt;
     MediaPlayer mediaPlayer;
 
@@ -64,57 +67,93 @@ public class Aprender extends AppCompatActivity {
 
         g = findViewById(R.id.gridLayout);
         button = findViewById(R.id.buttonEnviarRespuesta);
-        int preg = 0;
+        buttonGenerar = findViewById(R.id.buttonGenerar);
+        editText = findViewById(R.id.editText);
+
+
+        button.setEnabled(false);
+
+        final int preg = 0;
 
         manejadorBDPREGUNTAS = new ManejadorBDPREGUNTAS(Aprender.this);
         manejadorBDLOGROS = new ManejadorBDLOGROS(Aprender.this);
         n = total();
-        //obtengo preguntas
-        if (n != 0) {
-            //Generar numeros aleatoriamente sin repetir
-            alt = aleatorio();
-            crear(preg);
+        editText.setHint("1-" + n);
+        buttonGenerar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (n != 0) {
+                    if (editText.getText().toString().equals("")) {
+                        Toast.makeText(Aprender.this, "Introduzca un número de preguntas entre 1 y " + n, Toast.LENGTH_SHORT).show();
+                    } else {
+                        if ((Integer.parseInt(editText.getText().toString())) >= 1 && (Integer.parseInt(editText.getText().toString()) <= n)) {
 
-            //  Toast.makeText(this, "Acertadas " + acertadas, Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "No se han introducido preguntas", Toast.LENGTH_SHORT).show();
-        }
+                            Cursor cursor = manejadorBDPREGUNTAS.listar();
+                            filaPreg = new String[n];
+                            filaRes = new String[n];
+                            filaInco = new String[n];
+                            filaInco2 = new String[n];
+                            filaInco3 = new String[n];
+                            System.out.println("N " + n + " long " + filaRes.length);
+                            int i = 0;
+                            while (cursor.moveToNext()) {
+
+
+                                cursor.getString(0);
+                                filaPreg[i] = cursor.getString(1);
+                                filaRes[i] = cursor.getString(2);
+                                filaInco[i] = cursor.getString(3);
+                                filaInco2[i] = cursor.getString(4);
+                                filaInco3[i] = cursor.getString(5);
+
+                                System.out.println("I " + i + " preg " + filaPreg[i] + " RES " + filaRes[i] + " INCo" + filaInco[i] + " Inco2 " + filaInco2[i] + " inco3 " + filaInco3[i]);
+                                i++;
+                            }
+
+                            cursor.close();
+                            numero_preg = (Integer.parseInt(editText.getText().toString()));
+                            alt = aleatorio();
+
+                            /*if((Integer.parseInt(editText.getText().toString()))==1){
+                                numero_preg=0;
+                               // alt[0] = 0;
+                            }*/
+
+
+                            crear(preg);
+                            buttonGenerar.setEnabled(false);
+                            editText.setEnabled(false);
+                            button.setEnabled(true);
+
+                        } else {
+                            Toast.makeText(Aprender.this, "No existe esa cantidad de preguntas ", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                } else {
+                    Toast.makeText(Aprender.this, "No se han introducido preguntas", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
 
     }
 
     public void crear(int preg) {
         String res = "";
-      final int num=0;
+
         siguiente = true;
-        Cursor cursor = manejadorBDPREGUNTAS.listar();
-        filaPreg = new String[n];
-        filaRes = new String[n];
-        filaInco = new String[n];
-        filaInco2 = new String[n];
-        int i = 0;
-        while (cursor.moveToNext()) {
 
-            cursor.getString(0);
-            filaPreg[i] = cursor.getString(1);
-            filaRes[i] = cursor.getString(2);
-            filaInco[i] = cursor.getString(3);
-            filaInco2[i] = cursor.getString(4);
-            i++;
+        final TextView[] textView = new TextView[numero_preg];
+        final RadioGroup[] radioGroup = new RadioGroup[numero_preg];
 
-        }
-
-        cursor.close();
-        final TextView[] textView = new TextView[n];
-        final RadioGroup[] radioGroup = new RadioGroup[n];
-
-        if (preg >= 0 && preg < n) {
+        if (preg < numero_preg) {
 
             textView[preg] = new TextView(Aprender.this);
             textView[preg].setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            textView[preg].setText(filaPreg[preg]);
-            //  textView[preg].setText(filaPreg[alt[preg]]);
-            //  System.out.println("Texto: "+filaPreg[alt[preg]]+" alt[preg]= "+alt[preg]+" preg "+preg);
+
+            textView[preg].setText(filaPreg[alt[preg]]);
+
             textView[preg].setInputType(InputType.TYPE_CLASS_TEXT);
             textView[preg].setId(View.generateViewId());
 
@@ -127,51 +166,61 @@ public class Aprender extends AppCompatActivity {
             int num1;
             int num2 = 1;
             int num3 = 1;
+            int num4 = 1;
 
-            int numero = (int) (Math.random() * 3) + 1;
+            int numero = (int) (Math.random() * 4) + 1;
             num1 = numero;
-            for (int a = 0; a < 3; a++) {
+            for (int a = 0; a < 4; a++) {
 
                 if (num1 == num2) {
-                    numero = (int) (Math.random() * 3) + 1;
+                    numero = (int) (Math.random() * 4) + 1;
                     num2 = numero;
                     a--;
                 }
                 if (num3 == num2) {
-                    numero = (int) (Math.random() * 3) + 1;
+                    numero = (int) (Math.random() * 4) + 1;
                     num3 = numero;
                     a--;
                 }
                 if (num3 == num1) {
-                    numero = (int) (Math.random() * 3) + 1;
+                    numero = (int) (Math.random() * 4) + 1;
                     num1 = numero;
                     a--;
                 }
-                if (num1 != num2 && num3 != num2 && num3 != num1) {
-                    a = 3;
+                if (num4 == num1 || num4 == num2 || num4 == num3) {
+                    numero = (int) (Math.random() * 4) + 1;
+                    num4 = numero;
+                    a--;
+                }
+                if (num1 != num2 && num3 != num2 && num3 != num1 && num4 != num2 && num4 != num3 && num4 != num1) {
+                    a = 4;
                 }
 
             }
             int respuesta = 0;
-            for (int j = 1; j <= 3; j++) {
+            for (int j = 1; j <= 4; j++) {
                 final RadioButton rdbtn = new RadioButton(this);
 
                 rdbtn.setId(((j)));
                 if (j == num1) {
                     rdbtn.setId(((j)));
-                    rdbtn.setText(" " + rdbtn.getId() + " " + filaRes[preg]);
-                    // rdbtn.setText(" " + rdbtn.getId() + " " + filaRes[alt[preg]]);
+                    //  rdbtn.setText(" " + rdbtn.getId() + " " + filaRes[preg]);
+                    rdbtn.setText(" " + rdbtn.getId() + " " + filaRes[alt[preg]]);
                     respuesta = j;
-                    res = filaRes[preg];
-                    // res = filaRes[alt[preg]];
+                    //res = filaRes[preg];
+                    res = filaRes[alt[preg]];
                 }
                 if (j == num2) {
                     rdbtn.setId(((j)));
-                    rdbtn.setText(" " + rdbtn.getId() + " " + filaInco[preg]);
+                    rdbtn.setText(" " + rdbtn.getId() + " " + filaInco[alt[preg]]);
                 }
                 if (j == num3) {
                     rdbtn.setId(((j)));
-                    rdbtn.setText(" " + rdbtn.getId() + " " + filaInco2[preg]);
+                    rdbtn.setText(" " + rdbtn.getId() + " " + filaInco2[alt[preg]]);
+                }
+                if (j == num4) {
+                    rdbtn.setId(((j)));
+                    rdbtn.setText(" " + rdbtn.getId() + " " + filaInco3[alt[preg]]);
                 }
                 final int finalRespuesta = respuesta;
                 rdbtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -192,7 +241,7 @@ public class Aprender extends AppCompatActivity {
 
             if (siguiente) {
                 preg++;
-                //Toast.makeText(this, "preg: " + preg, Toast.LENGTH_SHORT).show();
+
             }
 
             final int fpreg = preg;
@@ -201,55 +250,41 @@ public class Aprender extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     siguiente = true;
-                    //System.out.println("button " + fpreg);
-                    crear(fpreg);
-                    textView[fpreg - 1].setVisibility(View.GONE);
-                    radioGroup[fpreg - 1].setVisibility(View.GONE);
+
+
+                    if (fpreg == 1) {
+                        insertarEnLogros(String.valueOf(acertadas), false);
+                    }
                     if (correcta) {
                         Toast.makeText(Aprender.this, "La respuesta es correcta ", Toast.LENGTH_SHORT).show();
                         acertadas++;
-
-                        System.out.println("Acertadas1: "+acertadas);
+                        insertarEnLogros(String.valueOf(acertadas), true);
+                        System.out.println("Acertadas1: " + acertadas);
                         sonido(true);
                     } else {
                         Toast.makeText(Aprender.this, "La respuesta correcta es " + finalRes, Toast.LENGTH_SHORT).show();
                         sonido(false);
                     }
+                    crear(fpreg);
+                    textView[fpreg - 1].setVisibility(View.GONE);
+                    radioGroup[fpreg - 1].setVisibility(View.GONE);
 
 
                 }
             });
-            Toast.makeText(this, "preg " + preg + " || n " + n, Toast.LENGTH_SHORT).show();
 
 
         } else {
-          //  num=acertadas;
-            if (preg == 6) {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                Date date = new Date();
-
-                String fecha = dateFormat.format(date)+" "+hora();;
-                Toast.makeText(this, "preg " + preg + "n " + n, Toast.LENGTH_SHORT).show();
-                Toast.makeText(this, "Finalizado has acertado " + acertadas + " de " + n, Toast.LENGTH_SHORT).show();
-                button.setEnabled(false);
-                System.out.println("Acertadas3: "+acertadas);
-                lanzarNotificacionConImagen(String.valueOf(acertadas));
-                manejadorBDLOGROS.insertar(fecha, String.valueOf(acertadas));
-            } else {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                Date date = new Date();
-
-                String fecha = dateFormat.format(date)+" "+hora();
-
-                Toast.makeText(this, "preg " + preg + "n " + n, Toast.LENGTH_SHORT).show();
-                Toast.makeText(this, "Finalizado has acertado " + acertadas + " de " + n, Toast.LENGTH_SHORT).show();
-                button.setEnabled(false);
-                System.out.println("Acertadas2: "+ String.valueOf(acertadas));
-                lanzarNotificacionConImagen(String.valueOf(acertadas));
-                manejadorBDLOGROS.insertar(fecha, String.valueOf(acertadas));
 
 
-            }
+            Toast.makeText(this, "Finalizado,has acertado " + mostrarLogros("no") + " de " + numero_preg, Toast.LENGTH_SHORT).show();
+            button.setEnabled(false);
+            buttonGenerar.setEnabled(true);
+            editText.setEnabled(true);
+
+            lanzarNotificacionConImagen(mostrarLogros("no"));
+
+
         }
 
     }
@@ -271,20 +306,28 @@ public class Aprender extends AppCompatActivity {
 
     public int[] aleatorio() {
         int n1 = 0;
-        int[] array = new int[n];
+        int[] array = new int[numero_preg];
 
-        array[n1] = (int) (Math.random() * n) + 1;
-        for (n1 = 1; n1 < n; n1++) {
-            array[n1] = (int) (Math.random() * n) + 1;
-            for (int j = 0; j < n1; j++) {
-                if (array[n1] == array[j]) {
+        if (numero_preg == 1) {
+            array[0] = 0;
+        } else {
 
-                    n1--;
+            array[n1] = (int) (Math.random() * numero_preg) + 1;
+            for (n1 = 1; n1 < numero_preg; n1++) {
+                // array[n1] = (int) (Math.random() * n) + 1;
+                array[n1] = new Random().nextInt(numero_preg - 0) + 0;
+                for (int j = 0; j < n1; j++) {
+                    if (array[n1] == array[j]) {
+
+                        n1--;
+                    }
                 }
+
             }
-
+            for (int a = 0; a < numero_preg; a++) {
+                System.out.println("Azar" + array[a]);
+            }
         }
-
         return array;
     }
 
@@ -294,26 +337,28 @@ public class Aprender extends AppCompatActivity {
         if (suena) {
             if (correct) {
                 mediaPlayer = MediaPlayer.create(Aprender.this, R.raw.correcto);
-               // Toast.makeText(this, "Sonido correcto", Toast.LENGTH_SHORT).show();
+
                 mediaPlayer.start();
             } else {
                 mediaPlayer = MediaPlayer.create(Aprender.this, R.raw.error);
-                //Toast.makeText(this, "Sonido INcorrecto", Toast.LENGTH_SHORT).show();
+
                 mediaPlayer.start();
 
             }
         }
     }
-    public String hora(){
+
+    public String hora() {
         String cadena;
         Calendar calendario = Calendar.getInstance();
-         calendario = new GregorianCalendar();
+        calendario = new GregorianCalendar();
         int hora = calendario.get(Calendar.HOUR_OF_DAY);
         int minutos = calendario.get(Calendar.MINUTE);
         int segundos = calendario.get(Calendar.SECOND);
-        cadena=(hora+1)+":"+minutos+":"+segundos;
+        cadena = (hora + 1) + ":" + minutos + ":" + segundos;
         return cadena;
     }
+
     private void lanzarNotificacionConImagen(String aciertos) {
 
         int notifyId = 4;
@@ -323,7 +368,7 @@ public class Aprender extends AppCompatActivity {
                         .setSmallIcon(R.drawable.ic_launcher_background)
                         .setContentTitle("Resultado del test")
                         .setAutoCancel(true)
-                        .setContentText("Aciertos "+aciertos);
+                        .setContentText("Aciertos " + aciertos);
 
 
         NotificationCompat.BigPictureStyle bigPictureStyle = new NotificationCompat.BigPictureStyle();
@@ -355,6 +400,46 @@ public class Aprender extends AppCompatActivity {
         }
 
         notificationManager.notify(notifyId, builder.build());
+    }
+
+    public void insertarEnLogros(String acertadas, boolean actualizar) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        Date date = new Date();
+
+        String fecha = dateFormat.format(date) + " " + hora();
+        if (!actualizar) {
+            manejadorBDLOGROS.insertar(fecha, acertadas);
+        } else {
+            mostrarLogros("id");
+            manejadorBDLOGROS.actualizar(mostrarLogros("id"), fecha, acertadas);
+        }
+    }
+
+    public String mostrarLogros(String obtener) {
+        Cursor cursor = manejadorBDLOGROS.listar();
+        String id = "";
+        String punt = "";
+        String cad = "";
+        while (cursor.moveToNext()) {
+
+            id = cursor.getString(0);
+            punt = cursor.getString(2);
+
+
+        }
+        if (obtener.equals("id")) {
+            cad = id;
+            System.out.println("ID " + cad);
+        } else {
+            cad = punt;
+            System.out.println("cad " + cad);
+        }
+
+
+        cursor.close();
+        System.out.println("return " + cad);
+        return cad;
+
     }
 
 

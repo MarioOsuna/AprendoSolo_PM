@@ -17,4 +17,5 @@
     <string name="RespuestaIncorrecta">Respuesta incorrecta</string>
     <string name="Añadir1">Añadir</string>
     <string name="Metros">Metros</string>
+    <string name="generar">generar</string>
 </resources>

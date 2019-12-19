@@ -16,6 +16,7 @@ public class ManejadorBDPREGUNTAS extends SQLiteOpenHelper {
     private static final String COL_3 = "Respuesta_correcta";
     private static final String COL_4 = "Respuesta_incorrecta1";
     private static final String COL_5 = "Respuesta_incorrecta2";
+    private static final String COL_6 = "Respuesta_incorrecta3";
 
     public ManejadorBDPREGUNTAS(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -25,7 +26,7 @@ public class ManejadorBDPREGUNTAS extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        db.execSQL("CREATE TABLE " + TABLE_NAME + "(" + COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_2 + " TEXT, " + COL_3 + " TEXT," + COL_4 + " TEXT," + COL_5 + " TEXT)");
+        db.execSQL("CREATE TABLE " + TABLE_NAME + "(" + COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_2 + " TEXT, " + COL_3 + " TEXT," + COL_4 + " TEXT," + COL_5 + " TEXT," + COL_6 + " TEXT)");
 
     }
 
@@ -34,13 +35,14 @@ public class ManejadorBDPREGUNTAS extends SQLiteOpenHelper {
 
     }
 
-    public boolean insertar(String pregunta, String respuesta, String incorrecta1,String incorrecta2) {
+    public boolean insertar(String pregunta, String respuesta, String incorrecta1,String incorrecta2,String incorrecta3) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_2, pregunta);
         contentValues.put(COL_3, respuesta);
         contentValues.put(COL_4, incorrecta1);
         contentValues.put(COL_5, incorrecta2);
+        contentValues.put(COL_6, incorrecta3);
 
         long resultado = db.insert(TABLE_NAME, null, contentValues);
 
@@ -73,13 +75,14 @@ public class ManejadorBDPREGUNTAS extends SQLiteOpenHelper {
 
     }
 
-    public boolean actualizar(String id, String pregunta, String respuesta, String incorrecta1,String incorrecta2) {
+    public boolean actualizar(String id, String pregunta, String respuesta, String incorrecta1,String incorrecta2,String incorrecta3) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_2, pregunta);
         contentValues.put(COL_3, respuesta);
         contentValues.put(COL_4, incorrecta1);
         contentValues.put(COL_5, incorrecta2);
+        contentValues.put(COL_6, incorrecta3);
 
         long resultado = db.update(TABLE_NAME, contentValues, COL_1 + "=?", new String[]{id});
 

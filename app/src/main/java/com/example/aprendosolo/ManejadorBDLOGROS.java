@@ -72,7 +72,7 @@ public class ManejadorBDLOGROS extends SQLiteOpenHelper {
 
     }
 
-    public boolean actualizar(String id, String hora, String puntuacion, String acertadas) {
+    public boolean actualizar(String id, String hora, String puntuacion) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_2, hora);

@@ -17,7 +17,7 @@ import java.util.List;
 
 public class ModificarPreguntas extends AppCompatActivity {
     Button buttonVolver, buttonModificar;
-    EditText editTextID, editTextRespuesta, editTextPregunta, editTextIncorrecta1, editTextIncorrecta2;
+    EditText editTextID, editTextRespuesta, editTextPregunta, editTextIncorrecta1, editTextIncorrecta2, editTextIncorrecta3;
     ListView listViewModificar;
     ManejadorBDPREGUNTAS manejadorBDPREGUNTAS;
 
@@ -32,6 +32,7 @@ public class ModificarPreguntas extends AppCompatActivity {
         editTextPregunta = findViewById(R.id.editTextPreguntaModificar);
         editTextIncorrecta1 = findViewById(R.id.editTextIncorrectaMod);
         editTextIncorrecta2 = findViewById(R.id.editTextIncorrectaMod2);
+        editTextIncorrecta3 = findViewById(R.id.editTextIncorrectaMod3);
         listViewModificar = findViewById(R.id.ListaModificar);
         manejadorBDPREGUNTAS = new ManejadorBDPREGUNTAS(ModificarPreguntas.this);
 
@@ -50,7 +51,7 @@ public class ModificarPreguntas extends AppCompatActivity {
         buttonModificar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                manejadorBDPREGUNTAS.actualizar(editTextID.getText().toString(), editTextPregunta.getText().toString(), editTextRespuesta.getText().toString(), editTextIncorrecta1.getText().toString(), editTextIncorrecta2.getText().toString());
+                manejadorBDPREGUNTAS.actualizar(editTextID.getText().toString(), editTextPregunta.getText().toString(), editTextRespuesta.getText().toString(), editTextIncorrecta1.getText().toString(), editTextIncorrecta2.getText().toString(), editTextIncorrecta3.getText().toString());
 
             }
         });
@@ -70,6 +71,7 @@ public class ModificarPreguntas extends AppCompatActivity {
                 fila += " RESPUESTA: " + cursor.getString(2);
                 fila += " R_INC 1: " + cursor.getString(3);
                 fila += " R_INC 2: " + cursor.getString(4);
+                fila += " R_INC 3: " + cursor.getString(5);
                 list.add(fila);
 
             }
